@@ -1,4 +1,7 @@
 
+using WA1.Application.Services.PersonService;
+using WA1.Application.Services.XMLandJSON;
+
 namespace WA1
 {
     public class Program
@@ -14,6 +17,9 @@ namespace WA1
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<IPersonService,XMLService>();
+            builder.Services.AddScoped<IPersonService,JsonService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -22,6 +28,9 @@ namespace WA1
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles();
+
 
             app.UseHttpsRedirection();
 

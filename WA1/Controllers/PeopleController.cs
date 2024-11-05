@@ -15,7 +15,7 @@ namespace WA1.Controllers
         }
 
         [HttpGet]
-        [Route("api/person/getbyid/{id}")]
+        [Route("api/GetById/{id}")]
         public IActionResult GetById(int id)
         {
             var person = _personService.GetbyId(id);
@@ -27,7 +27,7 @@ namespace WA1.Controllers
         }
 
         [HttpPost]
-        [Route("api/person/create")]
+        [Route("api/Create")]
         public IActionResult Create(Person person)
         {
             _personService.AddAsync(person);
@@ -36,7 +36,7 @@ namespace WA1.Controllers
 
 
         [HttpPut]
-        [Route("api/person/update/{id}")]
+        [Route("api/Update/{id}")]
         public IActionResult Update(int id, Person person)
         {
             if (id != person.Id)
@@ -53,7 +53,7 @@ namespace WA1.Controllers
         }
 
         [HttpDelete]
-        [Route("api/person/delete/{id}")]
+        [Route("api/Delete/{id}")]
         public IActionResult Delete(int id)
         {
             var personToDelete = _personService.GetbyId(id);
@@ -66,10 +66,10 @@ namespace WA1.Controllers
         }
 
         [HttpGet]
-        [Route("api/person/getall")]
+        [Route("api/GetAll")]
         public IActionResult GetAllPeople()
         {
-            var people = _personService.GetAllPeople();
+            var people = _personService.GetAllPeopleAsync();
             return Ok(people);
         }
 
