@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WA1.Application.Services.PersonService;
+using WA1.Domain.Entities;
 
 namespace WA1.Controllers
 {
@@ -8,15 +9,69 @@ namespace WA1.Controllers
     public class PeopleController : ControllerBase
     {
         private readonly IPersonService _personService;
+        public PeopleController(IPersonService personService)
+        {
+            _personService = personService;
+        }
+
+        [HttpGet]
+        [Route("api/person/getbyid/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var person = _personService.GetbyId(id);
+            if(person == null)
+            {
+                return NotFound();
+            }
+            return Ok(person);
+        }
+
+        [HttpPost]
+        [Route("api/person/create")]
+        public IActionResult Create(Person person)
+        {
+            _personService.AddAsync(person);
+            return CreatedAtAction(nameof(GetById), new {id = person.Id}, person);
+        }
 
 
         [HttpPut]
         [Route("api/person/update/{id}")]
-        public async Task<IActionResult> UpdateAsync(int id)
+        public IActionResult Update(int id, Person person)
         {
+            if (id != person.Id)
+            {
+                return NotFound();
+            }
 
+            var foundPerson = _personService.GetbyId(id);
+            if (foundPerson == null) 
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
 
+        [HttpDelete]
+        [Route("api/person/delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            var personToDelete = _personService.GetbyId(id);
+            if(personToDelete == null)
+            {
+                return NotFound();
+            }
+            _personService.DeleteAsync(id);
+            return NoContent();
+        }
+
+        [HttpGet]
+        [Route("api/person/getall")]
+        public IActionResult GetAllPeople()
+        {
+            var people = _personService.GetAllPeople();
+            return Ok(people);
+        }
 
     }
 }

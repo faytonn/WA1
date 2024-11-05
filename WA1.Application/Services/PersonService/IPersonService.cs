@@ -9,11 +9,11 @@ namespace WA1.Application.Services.PersonService
 {
     public interface IPersonService
     {
-        List<Person> GetAllPeople();
         Task<Person?> GetbyId(int id);
-        Task<Person> AddAsync(Person person); 
-        Task<Person> UpdateAsync(Person person);
-        Task<Person> DeleteAsync(int id);
+        Task AddAsync(Person person); 
+        Task UpdateAsync(int id, Person person);
+        Task DeleteAsync(int id);
+        Task<List<Person>> GetAllPeopleAsync();
 
     }
 }
